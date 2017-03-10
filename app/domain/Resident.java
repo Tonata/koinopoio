@@ -1,78 +1,41 @@
 package domain;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Indexed;
+
 /**
  * Created by martian on 2017/02/25.
  */
+@Entity(noClassnameStored = true, value = "resident")
 public class Resident {
+    @Id
+    private ObjectId residentID;
 
-    private String residentID;
-    private String name;
+    @Indexed(unique = false)
     private String contactNumber;
+    @Indexed(unique = false)
+    private String name;
+
     private String emailAddress;
-    private String areaID;
+    private String areaName;
 
-   private Resident(Builder b){
-       residentID       = b.residentID;
-       name             = b.name;
-       contactNumber    = b.contactNumber;
-       emailAddress     = b.emailAddress;
-       areaID           = b.areaID;
+    public Resident() {
+    }
 
-   }
+    public Resident(String contactNumber, String name, String emailAddress, String areaName) {
+        this.contactNumber = contactNumber;
+        this.name = name;
+        this.emailAddress = emailAddress;
+        this.areaName = areaName;
+    }
 
-   public static class Builder{
-       private String residentID;
-       private String name;
-       private String contactNumber;
-       private String emailAddress;
-       private String areaID;
-
-       public Builder(){}
-
-       public Builder residentID(String rID){
-           residentID = rID;
-           return this;
-       }
-
-       public Builder name (String n){
-           name = n;
-           return this;
-       }
-
-       public Builder contactNumber(String num){
-           contactNumber = num;
-           return this;
-       }
-
-       public Builder emailAddress(String email){
-           emailAddress = email;
-           return this;
-       }
-
-       public Builder areaID (String aID){
-           areaID = aID;
-           return this;
-       }
-
-       public Builder resident (Resident res){
-           residentID       = res.getResidentID();
-           name             = res.getName();
-           contactNumber    = res.getContactNumber();
-           emailAddress     = res.getEmailAddress();
-           areaID           = res.getAreaID();
-           return this;
-       }
-
-       public Resident build(){
-           return new Resident(this);
-       }
-   }
-
-    public String getResidentID() {
+    public ObjectId getResidentID() {
         return residentID;
     }
 
-    public void setResidentID(String residentID) {
+    public void setResidentID(ObjectId residentID) {
         this.residentID = residentID;
     }
 
@@ -100,11 +63,11 @@ public class Resident {
         this.emailAddress = emailAddress;
     }
 
-    public String getAreaID() {
-        return areaID;
+    public String getAreaName() {
+        return areaName;
     }
 
-    public void setAreaID(String areaID) {
-        this.areaID = areaID;
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 }

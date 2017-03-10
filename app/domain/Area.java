@@ -1,54 +1,31 @@
 package domain;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Indexed;
+
 /**
  * Created by martian on 2017/02/25.
  */
+@Entity(noClassnameStored = true, value = "area")
 public class Area {
+    @Id
+    private ObjectId id;
+
+    @Indexed(unique = false)
+    private String name;
 
     private String areaID;
-    private String name;
     private String areaCode;
 
-    private Area(Builder b){
-        areaID      = b.areaID;
-        name        = b.name;
-        areaCode    = b.areaCode;
+    public Area() {
     }
 
-    public static class Builder{
-        private String areaID;
-        private String name;
-        private String areaCode;
-
-        public Builder(){
-
-        }
-
-        public Builder areaID(String aID){
-            areaID = aID;
-            return this;
-        }
-
-        public Builder name(String n){
-            name = n;
-            return this;
-        }
-
-        public Builder areaCode(String aCode){
-            areaID = aCode;
-            return this;
-        }
-
-        public Builder area(Area a){
-            areaID      = a.getAreaID();
-            name        = a.getName();
-            areaCode    = a.getAreaCode();
-            return this;
-        }
-
-        public Area build(){
-            return new Area(this);
-        }
+    public Area(String name, String areaID, String areaCode) {
+        this.name = name;
+        this.areaID = areaID;
+        this.areaCode = areaCode;
     }
 
     public String getAreaID() {
@@ -73,5 +50,13 @@ public class Area {
 
     public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 }

@@ -1,63 +1,31 @@
 package domain;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Indexed;
+
 /**
  * Created by martian on 2017/02/25.
  */
+@Entity(noClassnameStored = true, value = "person")
 public class Person {
+    @Id
+    private ObjectId id;
 
+    @Indexed(unique = false)
     private String firstName;
+
     private String lastName;
     private String gender;
-    private String id;
 
-    private Person (Builder b){
-        firstName       = b.firstName;
-        lastName        = b.lastName;
-        gender          = b.gender;
-        id              = b.id;
+    public Person() {
     }
 
-    public static class Builder{
-        private String firstName;
-        private String lastName;
-        private String gender;
-        private String id;
-
-        public Builder(){
-
-        }
-
-        public Builder firstName(String fName){
-            firstName = fName;
-            return this;
-        }
-
-        public Builder lastName (String lName){
-            lastName = lName;
-            return this;
-        }
-
-        public Builder gender (String g){
-            gender = g;
-            return this;
-        }
-
-        public Builder id(String i){
-            id = i;
-            return this;
-        }
-
-        public Builder person (Person p){
-            firstName       = p.getFirstName();
-            lastName        = p.getLastName();
-            gender          = p.getGender();
-            id              = p.getId();
-            return this;
-        }
-
-        public Person build(){
-            return new Person(this);
-        }
+    public Person(String firstName, String lastName, String gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
     }
 
     public String getFirstName() {
@@ -84,11 +52,11 @@ public class Person {
         this.gender = gender;
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 }

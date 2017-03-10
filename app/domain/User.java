@@ -1,70 +1,38 @@
 package domain;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Indexed;
+
 /**
  * Created by martian on 2017/02/25.
  */
+@Entity(noClassnameStored = true, value = "user")
 public class User {
+    @Id
+    private ObjectId userID;
 
-    private String userID;
+    @Indexed(unique = false)
     private String username;
+
     private String password;
-    private String personID;
+    private ObjectId personID;
 
-    private User (Builder b){
-        userID = b.userID;
-        username = b.username;
-        password = b.password;
-        personID = b.personID;
+    public User() {
     }
 
-    public static class Builder{
-        private String userID;
-        private String username;
-        private String password;
-        private String personID;
-
-        public Builder(){
-
-        }
-
-        public Builder userID (String uID){
-            userID = uID;
-            return this;
-        }
-
-        public Builder username (String uName){
-            username = uName;
-            return this;
-        }
-
-        public Builder password (String pWord){
-            password = pWord;
-            return this;
-        }
-
-        public Builder personID (String pID){
-            personID = pID;
-            return this;
-        }
-
-        public Builder user (User u){
-            userID      = u.getUserID();
-            username    = u.getUsername();
-            password    = u.getPassword();
-            personID    = u.getPersonID();
-            return this;
-        }
-
-        public User build(){
-            return new User(this);
-        }
+    public User(String username, String password, ObjectId personID) {
+        this.username = username;
+        this.password = password;
+        this.personID = personID;
     }
 
-    public String getUserID() {
+    public ObjectId getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(ObjectId userID) {
         this.userID = userID;
     }
 
@@ -84,11 +52,11 @@ public class User {
         this.password = password;
     }
 
-    public String getPersonID() {
+    public ObjectId getPersonID() {
         return personID;
     }
 
-    public void setPersonID(String personID) {
+    public void setPersonID(ObjectId personID) {
         this.personID = personID;
     }
 }

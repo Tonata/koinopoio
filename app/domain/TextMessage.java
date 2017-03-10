@@ -1,6 +1,10 @@
 package domain;
 
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Indexed;
 
 import java.util.Date;
 import java.util.List;
@@ -8,86 +12,35 @@ import java.util.List;
 /**
  * Created by martian on 2017/02/25.
  */
+@Entity(noClassnameStored = true, value = "textmessage")
 public class TextMessage {
+    @Id
+    private ObjectId textID;
 
-    private String textID;
+    @Indexed(unique = false)
     private List<String> service;
+
     private Date cutoffDate;
     private DateTime timeFrom;
     private DateTime timeTo;
     private List<String> areaName;
 
-    private TextMessage (Builder b){
-        textID      = b.textID;
-        service     = b.service;
-        cutoffDate  = b.cutoffDate;
-        timeFrom    = b.timeFrom;
-        timeTo      = b.timeTo;
-        areaName    = b.areaName;
+    public TextMessage() {
     }
 
-    public static class Builder{
-        private String textID;
-        private List<String> service;
-        private Date cutoffDate;
-        private DateTime timeFrom;
-        private DateTime timeTo;
-        private List<String> areaName;
-
-        public Builder(){
-
-        }
-
-        public Builder textID (String tID){
-            textID = tID;
-            return this;
-        }
-
-        public Builder service (List<String> s){
-            service = s;
-            return this;
-        }
-
-        public Builder cutoffDate (Date cDate){
-            cutoffDate = cDate;
-            return this;
-        }
-
-        public Builder timeFrom (DateTime tFrom){
-            timeFrom = tFrom;
-            return this;
-        }
-
-        public Builder timeTo (DateTime tTo){
-            timeTo = tTo;
-            return this;
-        }
-
-        public Builder areaName (List<String> name){
-            areaName = name;
-            return this;
-        }
-
-        public Builder textMessage (TextMessage msg){
-            textID          = msg.getTextID();
-            service         = msg.getService();
-            cutoffDate      = msg.getCutoffDate();
-            timeFrom        = msg.getTimeFrom();
-            timeTo          = msg.getTimeTo();
-            areaName        = msg.getAreaName();
-            return this;
-        }
-
-        public TextMessage build(){
-            return new TextMessage(this);
-        }
+    public TextMessage(List<String> service, Date cutoffDate, DateTime timeFrom, DateTime timeTo, List<String> areaName) {
+        this.service = service;
+        this.cutoffDate = cutoffDate;
+        this.timeFrom = timeFrom;
+        this.timeTo = timeTo;
+        this.areaName = areaName;
     }
 
-    public String getTextID() {
+    public ObjectId getTextID() {
         return textID;
     }
 
-    public void setTextID(String textID) {
+    public void setTextID(ObjectId textID) {
         this.textID = textID;
     }
 

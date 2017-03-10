@@ -1,76 +1,48 @@
 package domain;
 
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Indexed;
 
 import java.util.Date;
 
 /**
  * Created by martian on 2017/02/25.
  */
+@Entity(noClassnameStored = true, value = "textlog")
 public class TextLog {
+    @Id
+    private ObjectId id;
 
+    @Indexed(unique = false)
     private Date dateSent;
+
+    @Indexed(unique = false)
     private DateTime timeSent;
+
     private String userID;
     private String status;
-    private String textID;
+    private ObjectId textID;
 
-    private TextLog (Builder b){
-        dateSent    = b.dateSent;
-        timeSent    = b.timeSent;
-        userID      = b.userID;
-        status      = b.status;
-        textID      = b.textID;
+    public TextLog() {
     }
 
-    public static class Builder{
-        private Date dateSent;
-        private DateTime timeSent;
-        private String userID;
-        private String status;
-        private String textID;
+    public TextLog(Date dateSent, DateTime timeSent, String userID, String status, ObjectId textID) {
+        this.dateSent = dateSent;
+        this.timeSent = timeSent;
+        this.userID = userID;
+        this.status = status;
+        this.textID = textID;
+    }
 
-        public Builder(){
+    public ObjectId getId() {
+        return id;
+    }
 
-        }
-
-        public Builder dateSent(Date sent){
-            dateSent = sent;
-            return this;
-        }
-
-        public Builder timeSent (DateTime tSent){
-            timeSent = tSent;
-            return this;
-        }
-
-        public Builder userID(String uID){
-            userID = uID;
-            return this;
-        }
-
-        public Builder status (String stat){
-            status = stat;
-            return this;
-        }
-
-        public Builder textID (String tID){
-            textID = tID;
-            return this;
-        }
-
-        public Builder textLog(TextLog log){
-            dateSent    = log.getDateSent();
-            timeSent    = log.getTimeSent();
-            userID      = log.getUserID();
-            status      = log.getStatus();
-            textID      = log.getTextID();
-            return this;
-        }
-
-        public TextLog build(){
-            return new TextLog(this);
-        }
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public Date getDateSent() {
@@ -105,11 +77,11 @@ public class TextLog {
         this.status = status;
     }
 
-    public String getTextID() {
+    public ObjectId getTextID() {
         return textID;
     }
 
-    public void setTextID(String textID) {
+    public void setTextID(ObjectId textID) {
         this.textID = textID;
     }
 }

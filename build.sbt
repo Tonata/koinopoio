@@ -30,6 +30,17 @@ libraryDependencies += "org.jongo" % "jongo" % "1.3.0"
 
 libraryDependencies += "org.testng" % "testng" % "6.10"
 
+libraryDependencies += "org.mongodb.morphia" % "morphia" % "1.3.2"
+
+libraryDependencies += "junit" % "junit" % "4.12"
+
+libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.24"
+
+libraryDependencies += "org.slf4j" % "slf4j-log4j12" % "1.7.24"
+
+libraryDependencies += "org.slf4j" % "jcl-over-slf4j" % "1.7.24"
+
+
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
   "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
