@@ -2,6 +2,7 @@ package domain;
 
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
@@ -21,14 +22,14 @@ public class TextMessage {
     private List<String> service;
 
     private Date cutoffDate;
-    private DateTime timeFrom;
-    private DateTime timeTo;
+    private Double timeFrom;
+    private Double timeTo;
     private List<String> areaName;
 
     public TextMessage() {
     }
 
-    public TextMessage(List<String> service, Date cutoffDate, DateTime timeFrom, DateTime timeTo, List<String> areaName) {
+    public TextMessage(List<String> service, Date cutoffDate, Double timeFrom, Double timeTo, List<String> areaName) {
         this.service = service;
         this.cutoffDate = cutoffDate;
         this.timeFrom = timeFrom;
@@ -60,19 +61,19 @@ public class TextMessage {
         this.cutoffDate = cutoffDate;
     }
 
-    public DateTime getTimeFrom() {
+    public Double getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(DateTime timeFrom) {
+    public void setTimeFrom(Double timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    public DateTime getTimeTo() {
+    public Double getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(DateTime timeTo) {
+    public void setTimeTo(Double timeTo) {
         this.timeTo = timeTo;
     }
 

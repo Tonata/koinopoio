@@ -17,12 +17,12 @@ public class Person {
     private String firstName;
 
     private String lastName;
-    private String gender;
+    private char gender;
 
     public Person() {
     }
 
-    public Person(String firstName, String lastName, String gender) {
+    public Person(String firstName, String lastName, char gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -44,11 +44,11 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public String getGender() {
+    public char getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(char gender) {
         this.gender = gender;
     }
 

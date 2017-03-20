@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
+import org.mongodb.morphia.annotations.Reference;
 
 /**
  * Created by martian on 2017/02/25.
@@ -17,15 +18,19 @@ public class User {
     private String username;
 
     private String password;
-    private ObjectId personID;
+    private String role;
+
+    @Reference
+    private Person person;
 
     public User() {
     }
 
-    public User(String username, String password, ObjectId personID) {
+    public User(String username, String password, Person person, String role) {
         this.username = username;
         this.password = password;
-        this.personID = personID;
+        this.person = person;
+        this.role     = role;
     }
 
     public ObjectId getUserID() {
@@ -52,11 +57,19 @@ public class User {
         this.password = password;
     }
 
-    public ObjectId getPersonID() {
-        return personID;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersonID(ObjectId personID) {
-        this.personID = personID;
+    public void setPerson(Person personID) {
+        this.person = personID;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
