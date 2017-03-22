@@ -59,6 +59,8 @@ public class UserRepositoryTest {
 
         userRepo.save(userOne);
 
+        //Needs asserts statement
+
 
     }
 

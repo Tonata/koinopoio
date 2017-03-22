@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
+import org.mongodb.morphia.annotations.Reference;
 
 import java.util.Date;
 
@@ -20,21 +21,25 @@ public class TextLog {
     private Date dateSent;
 
     @Indexed(unique = false)
-    private DateTime timeSent;
+    private Double timeSent;
 
-    private String userID;
+    @Reference
+    private User user;
+
+    @Reference
+    private TextMessage text;
+
     private String status;
-    private ObjectId textID;
 
     public TextLog() {
     }
 
-    public TextLog(Date dateSent, DateTime timeSent, String userID, String status, ObjectId textID) {
+    public TextLog(Date dateSent, Double timeSent, User user, String status, TextMessage text) {
         this.dateSent = dateSent;
         this.timeSent = timeSent;
-        this.userID = userID;
+        this.user = user;
         this.status = status;
-        this.textID = textID;
+        this.text = text;
     }
 
     public ObjectId getId() {
@@ -53,20 +58,20 @@ public class TextLog {
         this.dateSent = dateSent;
     }
 
-    public DateTime getTimeSent() {
+    public Double getTimeSent() {
         return timeSent;
     }
 
-    public void setTimeSent(DateTime timeSent) {
+    public void setTimeSent(Double timeSent) {
         this.timeSent = timeSent;
     }
 
-    public String getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user= user;
     }
 
     public String getStatus() {
@@ -77,11 +82,11 @@ public class TextLog {
         this.status = status;
     }
 
-    public ObjectId getTextID() {
-        return textID;
+    public TextMessage getText() {
+        return text;
     }
 
-    public void setTextID(ObjectId textID) {
-        this.textID = textID;
+    public void setText(TextMessage text) {
+        this.text = text;
     }
 }
