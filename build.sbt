@@ -40,6 +40,10 @@ libraryDependencies += "org.slf4j" % "slf4j-log4j12" % "1.7.24"
 
 libraryDependencies += "org.slf4j" % "jcl-over-slf4j" % "1.7.24"
 
+libraryDependencies += "org.apache.poi" % "poi" % "3.16"
+
+libraryDependencies += "org.apache.poi" % "poi-ooxml" % "3.16"
+
 
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",

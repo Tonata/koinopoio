@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
+import org.mongodb.morphia.query.Query;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -24,6 +25,8 @@ public class AreaRepositoryTest {
     private String dbName;
     private Morphia morphia;
     private AreaRepository areaRepo;
+    Datastore datastore;
+
 
     @BeforeTest
     public void setUp(){
@@ -34,6 +37,7 @@ public class AreaRepositoryTest {
 
         morphia.map(Area.class);
         areaRepo = new AreaRepository(client, morphia, dbName);
+        datastore = morphia.createDatastore(client,dbName);
 
     }
 
@@ -46,6 +50,13 @@ public class AreaRepositoryTest {
         ObjectId retrievedID = new ObjectId(savedID.toString());
 
         assertEquals(areaRepo.get(retrievedID).getName(), "Rocky Crest");
+
+//        String desktopPath = System.getProperty("user.home") + "/Desktop";
+//        System.out.println(desktopPath.replace("\\", "/"));
+
+
+//        Query<Area> areaQry = datastore.createQuery(Area.class);
+//        System.out.println(areaQry.count());
     }
 
     @AfterTest
