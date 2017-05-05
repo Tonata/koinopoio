@@ -64,7 +64,7 @@ public class PersonService {
         }
     }
 
-    public void updateGender(String oldGender, String newGender){
+    public void updateGender(char oldGender, char newGender){
         try{
             Query<Person> findQry = datastore.createQuery(Person.class).field("gender").equalIgnoreCase(oldGender);
             UpdateOperations<Person> updateQry = datastore.createUpdateOperations(Person.class).set("gender",newGender);
@@ -89,7 +89,7 @@ public class PersonService {
         return personQry.asList();
     }
 
-    public List<Person> getAllPersonsByGender (String character){
+    public List<Person> getAllPersonsByGender (char character){
         Query<Person> personQry = datastore.createQuery(Person.class).field("gender").equal(character);
         return personQry.asList();
     }

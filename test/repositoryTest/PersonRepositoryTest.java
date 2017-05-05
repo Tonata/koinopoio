@@ -38,7 +38,7 @@ public class PersonRepositoryTest {
     @Test
     public void personRepositoryTest(){
 
-        Person personOne = new Person("Jesse", "Schiceya", 'm');
+        Person personOne = new Person("Jane", "Doe", 'f');
 
         Object savedID = personRepo.save(personOne).getId();
 
