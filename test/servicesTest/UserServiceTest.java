@@ -6,10 +6,13 @@ import domain.Person;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import services.UserService;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * Created by martian on 2017/05/06.
@@ -29,19 +32,31 @@ public class UserServiceTest {
         dbName            = dbConn.getDatabaseString();
         morphiaTwo        = new Morphia();
         datastore = morphiaTwo.createDatastore(client,dbName);
+
+        service = new UserService();
     }
 
     @Test
-    public void userServiceTest(){
+    public void userLoginTest(){
 
-        Query<Person> personQry = datastore.createQuery(Person.class).field("firstName").equal("Jane").field("lastName").equal("Doe");
+        Boolean auth = service.login("JDoe67", "komeho");
 
-        Person personOne = (Person) personQry.asList().get(0);
-
-        service = new UserService();
-
-        service.registerUser(personOne, "converse");
+        Assert.assertTrue( auth);
     }
+
+//    @Test
+//    public void getUsernameTest(){
+//
+//        Person p = new Person("Jane", "Doe", 'f');
+//        assertEquals(service.getUsername(p), "JDoe67");
+//    }
+//
+//    @Test
+//    public void changePasswordTest(){
+//
+//        service.changePassword("JDoe67", "komeho");
+//    }
+
 
     @AfterTest
     public void cleanUp(){}

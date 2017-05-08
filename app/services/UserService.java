@@ -1,45 +1,36 @@
 package services;
 
-import com.mongodb.MongoClient;
-import conf.Connection;
-import domain.Area;
 import domain.Person;
 import domain.User;
 import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
-import repository.AreaRepository;
+import org.mongodb.morphia.query.UpdateOperations;
 import repository.UserRepository;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import static java.util.Arrays.asList;
 
 /**
  * Created by martian on 2017/05/01.
  */
 public class UserService {
 
-    UserRepository repository;
-    Connection connection = new Connection();
-    Datastore datastore;
-
-    MongoClient mongoClient;
-    String databaseName;
-    Morphia morphia = new Morphia();
-    static final String SALT = "zebra";
+    private UserRepository repository;
+    private Datastore datastore;
+    private MapClasses mapping;
+    private static final String SALT = "zebra";
 
     public UserService() {
 
-        mongoClient = connection.getConnection();
-        databaseName = connection.getDatabaseString();
-
-        morphia.map(Area.class); //
-        repository = new UserRepository(mongoClient,morphia, databaseName);
-        datastore = morphia.createDatastore(mongoClient,databaseName); //
+        mapping     = new MapClasses();
+        repository  = new UserRepository(mapping.getClient(),mapping.mapArea(), mapping.getDbName());
+        datastore   = mapping.getDatastore();
     }
 
-
-    public void registerUser(Person person, String password){
+    /* Register user with system generated username */
+    public void registerUser(Person person, String password, String role){
         UsernameGenerator generator = new UsernameGenerator();
 
         String uName = generator.generate(person.getFirstName(), person.getLastName());
@@ -47,19 +38,52 @@ public class UserService {
         String saltedPwd = SALT + password;
         String hashedPwd = generateHash(saltedPwd);
 
-        User user = new User(uName, hashedPwd, person, "admin");
+        Query<Person> personQry = datastore.createQuery(Person.class).field("firstName").equal(person.getFirstName()).field("lastName").equal(person.getLastName());
+
+        Person retrievedPerson = (Person) personQry.asList().get(0);
+
+        User user = new User(uName, hashedPwd, retrievedPerson, role);
 
         repository.save(user);
     }
 
-    public void changePassword(){
+    /* Register with user selected username */
+    public void registerUser(Person person, String username, String password, String role){
+
+        String saltedPwd = SALT + password;
+        String hashedPwd = generateHash(saltedPwd);
+
+        Query<Person> personQry = datastore.createQuery(Person.class).field("firstName").equal(person.getFirstName()).field("lastName").equal(person.getLastName());
+
+        Person retrievedPerson = (Person) personQry.asList().get(0);
+
+        User user = new User(username, hashedPwd, retrievedPerson, role);
+
+        repository.save(user);
+    }
+
+    public void changePassword(String username, String newPassword){
+
+        String saltedPwd = SALT + newPassword;
+        String hashedPwd = generateHash(saltedPwd);
+
+        Query<User> findQry = datastore.createQuery(User.class).field("username").equal(username);
+
+        UpdateOperations<User> updateQry = datastore.createUpdateOperations(User.class).set("password",hashedPwd);
+        datastore.update(findQry,updateQry);
 
     }
 
     public String getUsername(Person person){
-        //Retrieve person ID from DB
-        //User that ID to search the user collection for corresponding ID
-        return "";
+
+        Query<Person> personQry = datastore.createQuery(Person.class).field("firstName").equal(person.getFirstName()).field("lastName").equal(person.getLastName());
+
+        Person retrievedPerson = (Person) personQry.asList().get(0);
+
+        Query<User> findQry = datastore.createQuery(User.class).field("person").equal(retrievedPerson);
+
+        return findQry.asList().get(0).getUsername();
+
     }
 
     public Boolean login(String username, String password){
@@ -68,15 +92,16 @@ public class UserService {
         String saltedPwd = SALT + password;
         String hashedPwd = generateHash(saltedPwd);
 
-        Query<User> findQry = datastore.createQuery(User.class).field("username").equalIgnoreCase(username);
+        Query<User> findQry = datastore.createQuery(User.class).field("username").equal(username);
 
-
-        String storedPasswordHash =   findQry.toString();
+        String storedPasswordHash =  findQry.asList().get(0).getPassword();
 
         if (hashedPwd.equals(storedPasswordHash)){
             isAuthenticated = true;
-        }else{
+
+        }else {
             isAuthenticated = false;
+
         }
 
         return isAuthenticated;
