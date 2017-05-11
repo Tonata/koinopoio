@@ -37,13 +37,13 @@ public class ResidentRepositoryTest  {
 
     @Test
     public void residentTest(){
-        Resident residentOne = new Resident("+264814240295", "H Kalenga", "hkalenga@gmail.com", "Olympia");
+        Resident residentOne = new Resident("264815706696", "T Nakashololo", "hkalenga@gmail.com", "Wanaheda");
 
         Object savedID = residentRepo.save(residentOne).getId();
 
         ObjectId retrievedID = new ObjectId(savedID.toString());
 
-        assertEquals(residentRepo.get(retrievedID).getContactNumber(), "+264814240295");
+        assertEquals(residentRepo.get(retrievedID).getContactNumber(), "264815706696");
 
     }
 

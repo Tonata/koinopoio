@@ -18,22 +18,15 @@ import java.util.List;
  */
 public class PersonService {
 
-    PersonRepository repository;
-    Connection connection = new Connection();
-    Datastore datastore;
-
-    MongoClient mongoClient;
-    String databaseName;
-    Morphia morphia = new Morphia();
+    private PersonRepository repository;
+    private Datastore datastore;
+    private MapClasses mapping;
 
     public PersonService() {
 
-        mongoClient = connection.getConnection();
-        databaseName = connection.getDatabaseString();
-
-        morphia.map(Area.class);
-        repository = new PersonRepository(mongoClient,morphia, databaseName);
-        datastore = morphia.createDatastore(mongoClient,databaseName);
+        mapping     = new MapClasses();
+        repository  = new PersonRepository(mapping.getClient(),mapping.mapArea(), mapping.getDbName());
+        datastore   = mapping.getDatastore();
     }
 
     public Object addPerson(Person person){

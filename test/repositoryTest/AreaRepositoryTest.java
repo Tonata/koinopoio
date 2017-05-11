@@ -44,12 +44,15 @@ public class AreaRepositoryTest {
     @Test
     public void areaTest(){
 
-        Area areaOne = new Area("Rocky Crest", "005", "W7");
-        Object savedID = areaRepo.save(areaOne).getId();
+//        Area areaOne = new Area("Rocky Crest", "005", "W7");
+//        Object savedID = areaRepo.save(areaOne).getId();
+//
+//        ObjectId retrievedID = new ObjectId(savedID.toString());
+//
+//        assertEquals(areaRepo.get(retrievedID).getName(), "Rocky Crest");
 
-        ObjectId retrievedID = new ObjectId(savedID.toString());
-
-        assertEquals(areaRepo.get(retrievedID).getName(), "Rocky Crest");
+        Query<Area> findQry = datastore.createQuery(Area.class).field("name").containsIgnoreCase("Katutura");
+        System.out.println(findQry.asList().isEmpty());
 
 
 //        String desktopPath = System.getProperty("user.home") + "/Desktop";

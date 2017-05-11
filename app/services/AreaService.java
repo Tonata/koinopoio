@@ -18,22 +18,15 @@ import java.util.List;
  */
 public class AreaService {
 
-    AreaRepository repository;
-    Connection connection = new Connection();
-    Datastore datastore;
-
-    MongoClient mongoClient;
-    String databaseName;
-    Morphia morphia = new Morphia();
+    private AreaRepository repository;
+    private Datastore datastore;
+    private MapClasses mapping;
 
     public AreaService() {
 
-        mongoClient = connection.getConnection();
-        databaseName = connection.getDatabaseString();
-
-        morphia.map(Area.class);
-        repository = new AreaRepository(mongoClient,morphia, databaseName);
-        datastore = morphia.createDatastore(mongoClient,databaseName);
+        mapping     = new MapClasses();
+        repository  = new AreaRepository(mapping.getClient(),mapping.mapArea(), mapping.getDbName());
+        datastore   = mapping.getDatastore();
     }
 
     public Object addArea(Area area){
@@ -44,11 +37,17 @@ public class AreaService {
 
     }
 
+    public void addArea(String name, String areaID, String areaCode){
+        Area area = new Area(name,areaID, areaCode);
+        repository.save(area);
+    }
+
+    // Needs Bug checking
     public void updateAreaName(String oldName, String newName){
 
         try{
-            Query<Area> findQry = datastore.createQuery(Area.class).field("areaName").equalIgnoreCase(oldName);
-            UpdateOperations<Area> updateQry = datastore.createUpdateOperations(Area.class).set("areaName",newName);
+            Query<Area> findQry = datastore.createQuery(Area.class).field("name").equalIgnoreCase(oldName);
+            UpdateOperations<Area> updateQry = datastore.createUpdateOperations(Area.class).set("name",newName);
             datastore.update(findQry,updateQry);
         }catch (Exception ex){
             System.err.println("Update area name expection: " + ex.getMessage());
@@ -56,6 +55,7 @@ public class AreaService {
 
     }
 
+    // Needs Bug checking
     public void updateAreaCode(String oldCode, String newCode){
 
         try{
@@ -90,7 +90,7 @@ public class AreaService {
 
     public long getTotalResidents(String areaName){
 
-        Query<Resident> areaQry = datastore.createQuery(Resident.class).field("areaName").equalIgnoreCase(areaName);
+        Query<Resident> areaQry = datastore.createQuery(Resident.class).field("name").equalIgnoreCase(areaName);
         return areaQry.count();
 
     }
