@@ -46,6 +46,8 @@ libraryDependencies += "org.apache.poi" % "poi-ooxml" % "3.16"
 
 libraryDependencies += "com.opencsv" % "opencsv" % "3.9"
 
+libraryDependencies += "org.json" %  "json" % "20160810"
+
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
   "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",

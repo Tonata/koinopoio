@@ -2,6 +2,7 @@ package repositoryTest;
 
 import com.mongodb.MongoClient;
 import conf.Connection;
+import domain.Service;
 import domain.TextMessage;
 import org.bson.types.ObjectId;
 import org.joda.time.LocalTime;
@@ -12,9 +13,9 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import repository.TextMessageRepository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.testng.Assert.assertEquals;
 
@@ -44,21 +45,29 @@ public class TextMessageRepositoryTest {
     @Test
     public void areaTest(){
 
-        List<String> service = new ArrayList<String>();
-        List<String> areaNames = new ArrayList<String>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");
 
-        service.add("Electricity");
+        Calendar dt = new GregorianCalendar(2017,3,19);
 
-        areaNames.add("Wanaheda");
-        areaNames.add("Rocky Crest");
-        areaNames.add("WHK North");
+//        dt.set(2017,3,19);
 
-        TextMessage msg1 = new TextMessage(service, new Date(), 10.30, 20.30, areaNames);
-        Object savedID = textMsgRepo.save(msg1).getId();
 
-        ObjectId retrievedID = new ObjectId(savedID.toString());
+        System.out.println(sdf.format(dt.getTime()));
 
-        assertEquals(textMsgRepo.get(retrievedID).getService().contains("Electricity"), true);
+//        List<String> areaNames = new ArrayList<String>();
+//
+//        areaNames.add("Wanaheda");
+//
+//        areaNames.add("WHK North");
+//
+//        TextMessage msg1 = new TextMessage(  Service.WATER.toString(), new Date(), 10.30, 20.30, areaNames);
+//        Object savedID = textMsgRepo.save(msg1).getId();
+//
+//        ObjectId retrievedID = new ObjectId(savedID.toString());
+//
+//        assertEquals(textMsgRepo.get(retrievedID).getService().contains("WATER"), true);
+
+
     }
 
     @AfterTest

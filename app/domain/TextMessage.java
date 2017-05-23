@@ -7,6 +7,7 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,17 +20,17 @@ public class TextMessage {
     private ObjectId textID;
 
     @Indexed(unique = false)
-    private List<String> service;
+    private String service;
 
-    private Date cutoffDate;
-    private Double timeFrom;
-    private Double timeTo;
+    private String cutoffDate;
+    private String timeFrom;
+    private String timeTo;
     private List<String> areaName;
 
     public TextMessage() {
     }
 
-    public TextMessage(List<String> service, Date cutoffDate, Double timeFrom, Double timeTo, List<String> areaName) {
+    public TextMessage(String service, String cutoffDate, String timeFrom, String timeTo, List<String> areaName) {
         this.service = service;
         this.cutoffDate = cutoffDate;
         this.timeFrom = timeFrom;
@@ -45,35 +46,35 @@ public class TextMessage {
         this.textID = textID;
     }
 
-    public List<String> getService() {
+    public String getService() {
         return service;
     }
 
-    public void setService(List<String> service) {
+    public void setService(String service) {
         this.service = service;
     }
 
-    public Date getCutoffDate() {
+    public String getCutoffDate() {
         return cutoffDate;
     }
 
-    public void setCutoffDate(Date cutoffDate) {
+    public void setCutoffDate(String cutoffDate) {
         this.cutoffDate = cutoffDate;
     }
 
-    public Double getTimeFrom() {
+    public String getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(Double timeFrom) {
+    public void setTimeFrom(String timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    public Double getTimeTo() {
+    public String getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(Double timeTo) {
+    public void setTimeTo(String timeTo) {
         this.timeTo = timeTo;
     }
 

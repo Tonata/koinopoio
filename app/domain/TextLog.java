@@ -7,6 +7,7 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.annotations.Reference;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -18,10 +19,7 @@ public class TextLog {
     private ObjectId id;
 
     @Indexed(unique = false)
-    private Date dateSent;
-
-    @Indexed(unique = false)
-    private Double timeSent;
+    private Date dateTimeSent;
 
     @Reference
     private User user;
@@ -34,9 +32,8 @@ public class TextLog {
     public TextLog() {
     }
 
-    public TextLog(Date dateSent, Double timeSent, User user, String status, TextMessage text) {
-        this.dateSent = dateSent;
-        this.timeSent = timeSent;
+    public TextLog(Date dateTimeSent, User user, String status, TextMessage text) {
+        this.dateTimeSent = dateTimeSent;
         this.user = user;
         this.status = status;
         this.text = text;
@@ -50,20 +47,12 @@ public class TextLog {
         this.id = id;
     }
 
-    public Date getDateSent() {
-        return dateSent;
+    public Date getDateTimeSent() {
+        return dateTimeSent;
     }
 
-    public void setDateSent(Date dateSent) {
-        this.dateSent = dateSent;
-    }
-
-    public Double getTimeSent() {
-        return timeSent;
-    }
-
-    public void setTimeSent(Double timeSent) {
-        this.timeSent = timeSent;
+    public void setDateTimeSent(Date dateSent) {
+        this.dateTimeSent = dateTimeSent;
     }
 
     public User getUser() {

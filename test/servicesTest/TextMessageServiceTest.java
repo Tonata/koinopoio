@@ -2,6 +2,7 @@ package servicesTest;
 
 import com.mongodb.MongoClient;
 import conf.Connection;
+import domain.Service;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.testng.annotations.AfterTest;
@@ -38,15 +39,21 @@ public class TextMessageServiceTest {
 
     @Test
     public void textMessage(){
-        List<String> services = new ArrayList<>();
+
         List<String> areaName = new ArrayList<>();
 
-        services.add("Electricity");
-        services.add("Water");
         areaName.add("Wanaheda");
         areaName.add("Olympia");
 
-        service.createTextMessage(services, new Date(), 8.30, 15.30, areaName);
+        service.createTextMessage(Service.ELECTRICITY.toString(),
+                "12 May 2017",
+                "8:30",
+                "15:30",
+                areaName,
+                "tonata93@gmail.com",
+                "v+bQR+C9rWo-srUjpOzDuBhIYWEZGq2LzpPiv3XO6Y",
+                "tNak");
+
     }
 
     @AfterTest
